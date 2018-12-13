@@ -88,11 +88,7 @@
     }
 
     function gameSet() {
-      setWordDisplay(getRandomWord().length);
-      triesCount = 10;
-      isWordFound = false;
-      $triesDisplay.textContent = triesCount;
-      $lettersDisplay.textContent = "";
+      gameReset();
       $messageDisplay.textContent = "";
     }
 
@@ -100,6 +96,7 @@
       setWordDisplay(getRandomWord().length);
       triesCount = 10;
       isWordFound = false;
+      arrCorrect = [];
       $triesDisplay.textContent = triesCount;
       $lettersDisplay.textContent = "";
     }
