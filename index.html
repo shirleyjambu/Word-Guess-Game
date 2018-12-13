@@ -37,12 +37,13 @@
   </div>
   <script>
     // Initialise variables
-    var wordList = ["pretty", "beautiful", "lovely"];
+    var wordList = ["pretty", "beautiful", "lovely", "foliage", "summer", "exquisite"];
     var chosenWord = "";
     var guessWord = "";
     var allGuesses = "";
     var triesCount = 10;
     var arrCorrect = [];
+    var arrAllGuesses = [];
     var isWordFound = false;
 
     var $guessWordDisplay = document.getElementById("guessWordDisplay");
@@ -97,6 +98,7 @@
       triesCount = 10;
       isWordFound = false;
       arrCorrect = [];
+      arrAllGuesses = [];
       $triesDisplay.textContent = triesCount;
       $lettersDisplay.textContent = "";
     }
@@ -110,34 +112,45 @@
     // check if the letter exists in the word,if true set guessWord, else continue
     document.onkeyup = function (event) {
       keyEntered = event.key;
+      // To check if keyEntered is only alphabets
+      if (keyEntered.charCodeAt(0) >= 97 && keyEntered.charCodeAt(0) <= 122) {
+        if (triesCount >= 1 && triesCount <= 10) {
 
-      // decrement the counter and display the value
-      triesCount--;
-      $triesDisplay.textContent = triesCount;
+          // Display the letters typed 
+          allGuesses = $lettersDisplay.textContent;
 
-      if (triesCount >= 0 && triesCount < 10) {
-
-        // Display the letters typed 
-        allGuesses = $lettersDisplay.textContent;
-        $lettersDisplay.textContent = allGuesses + " " + keyEntered;
-
-        if (chosenWord.indexOf(keyEntered) >= 0) {
-
-          $guessWordDisplay.innerHTML = setSelectedLetters(keyEntered);
-          if (isWordFound) {
-            $messageDisplay.innerHTML = "<h4>You WIN !!!!!!! Enter any key to start again.</h4>";
-            gameReset();
+          if (allGuesses.includes(keyEntered)) {
+            $messageDisplay.innerHTML = "<h4> You already guessed it. Try another. </h4>"
           } else {
-            $messageDisplay.innerHTML = "<h4> Cool. Try getting another letter. </h4>"
+            // decrement the counter and display the value
+            triesCount--;
+
+            $triesDisplay.textContent = triesCount;
+
+            if (triesCount == 0) {
+              $messageDisplay.innerHTML = "<h4> Game Over. Guess the next Word.</h4>";
+              gameReset();
+            } else {
+              $lettersDisplay.textContent = allGuesses + " " + keyEntered;
+              if (chosenWord.indexOf(keyEntered) >= 0) {
+
+                $guessWordDisplay.innerHTML = setSelectedLetters(keyEntered);
+                if (isWordFound) {
+                  $messageDisplay.innerHTML = "<h4>You WIN !!!!!!! Guess the next word.</h4>";
+                  gameReset();
+                } else {
+                  $messageDisplay.innerHTML = "<h4> Cool. Try getting another letter. </h4>"
+                }
+              } else {
+                $messageDisplay.innerHTML = "<h4> Oops! Try another letter. </h4>"
+              }
+            }
           }
-        } else {
-          $messageDisplay.innerHTML = "<h4> Oops! Try another letter. </h4>"
         }
       } else {
-        // All tries done
-        $messageDisplay.innerHTML = "<h4> Game Over. Enter any key to start again.</h4>";
-        gameReset();
+        $messageDisplay.innerHTML = "<h4> Enter only alphabets. </h4>"
       }
+
     }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
