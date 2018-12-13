@@ -1,65 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 
-<title>Word Guess Game</title>
+  <title>Word Guess Game</title>
 </head>
+
 <body>
-<div class="container">
-  <div class="row">
-    <div class="col-12">Guess the word</div>
-  </div>
-  <!-- Display Word -->
-  <div class="row">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">Guess the word</div>
+    </div>
+    <!-- Display Word -->
+    <div class="row">
       <div class="col-12" id="guessWordDisplay"></div>
+    </div>
+    <!-- Tries Left -->
+    <div class="row">
+      <div class="col-2">Tries Left : </div>
+      <div class="col-10" id="triesDisplay"></div>
+    </div>
+    <!-- Letters Guessed -->
+    <div class="row">
+      <div class="col-2">Letters Guessed : </div>
+      <div class="col-10" id="lettersDisplay"></div>
+    </div>
+    <!-- Display Message -->
+    <div class="row">
+      <div class="col-12" id="messageDisplay"></div>
+    </div>
   </div>
+  <script>
+    // Initialise variables
+    var wordList = ["pretty", "beautiful", "lovely"];
+    var chosenWord = "";
+    var guessWord = "";
+    var allGuesses = "";
+    var triesCount = 10;
+    var arrCorrect = [];
+    var isWordFound = false;
 
-</div>
-<script>
-// Initialise variables
-var wordList = ["pretty","beautiful","lovely"];
-var chosenWord =  wordList[Math.floor(Math.random() * wordList.length)];
-var guessWord = "";
+    var $guessWordDisplay = document.getElementById("guessWordDisplay");
+    var $triesDisplay = document.getElementById("triesDisplay");
+    var $lettersDisplay = document.getElementById("lettersDisplay");
+    var $messageDisplay = document.getElementById("messageDisplay");
 
-var $guessWordDisplay = document.getElementById("guessWordDisplay");
-console.log(" chosen Word : " + chosenWord);
+    // Functions
+    function getRandomWord() {
+      chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+      console.log(" chosen Word : " + chosenWord);
+      return chosenWord;
+    }
 
-// Based on word chosen, create dashes to guess the word
-for(var i=0;i < chosenWord.length;i++){
-  guessWord = guessWord + "_ ";
-}
-$guessWordDisplay.innerHTML = guessWord;
+    function setWordDisplay(len) {
+      var startWord = "";
+      for (var i = 0; i < len; i++) {
+        startWord = startWord + "_ ";
+      }
+      $guessWordDisplay.innerHTML = startWord;
+    }
 
-// When user types in a key
-// check if the letter exists in the word,if true set guessWord, else continue
-document.onkeyup = function (event) {
-  keyEntered = event.key;
-  console.log("keyEntered : " + keyEntered + " , index : " + chosenWord.indexOf(keyEntered));
+    function setSelectedLetters(letter) {
+      arrCorrect.push(letter);
+      guessWord = "";
+      // Based on word chosen, create dashes to guess the word 
+      for (var i = 0; i < chosenWord.length; i++) {
 
-  if(chosenWord.indexOf(keyEntered) >= 0){
-    guessWord = "";
-    // Based on word chosen, create dashes to guess the word
-      for(var i=0;i < chosenWord.length;i++){
-        if(chosenWord.charAt(i) === keyEntered){
-          guessWord = guessWord + keyEntered;  
-        }else{
+        if (arrCorrect.includes(chosenWord.charAt(i))) {
+          guessWord = guessWord + chosenWord.charAt(i) + " ";
+        } else {
           guessWord = guessWord + "_ ";
         }
       }
-      $guessWordDisplay.innerHTML = guessWord;
-    
-  }else{
-    // Next try
-  }
-}
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+      setWordFound(guessWord);
+      return guessWord;
+    }
+
+    function setWordFound(word) {
+      if (word.indexOf("_") < 0) {
+        isWordFound = true;
+      }
+    }
+
+    function gameSet() {
+      setWordDisplay(getRandomWord().length);
+      triesCount = 10;
+      isWordFound = false;
+      $triesDisplay.textContent = triesCount;
+      $lettersDisplay.textContent = "";
+      $messageDisplay.textContent = "";
+    }
+
+    function gameReset() {
+      setWordDisplay(getRandomWord().length);
+      triesCount = 10;
+      isWordFound = false;
+      $triesDisplay.textContent = triesCount;
+      $lettersDisplay.textContent = "";
+    }
+
+    // End of Function Block
+
+    // Call the function to set the game    
+    gameSet();
+
+    // When user types in a key
+    // check if the letter exists in the word,if true set guessWord, else continue
+    document.onkeyup = function (event) {
+      keyEntered = event.key;
+
+      // decrement the counter and display the value
+      triesCount--;
+      $triesDisplay.textContent = triesCount;
+
+      if (triesCount >= 0 && triesCount < 10) {
+
+        // Display the letters typed 
+        allGuesses = $lettersDisplay.textContent;
+        $lettersDisplay.textContent = allGuesses + " " + keyEntered;
+
+        if (chosenWord.indexOf(keyEntered) >= 0) {
+
+          $guessWordDisplay.innerHTML = setSelectedLetters(keyEntered);
+          if (isWordFound) {
+            $messageDisplay.innerHTML = "<h4>You WIN !!!!!!! Enter any key to start again.</h4>";
+            gameReset();
+          } else {
+            $messageDisplay.innerHTML = "<h4> Cool. Try getting another letter. </h4>"
+          }
+        } else {
+          $messageDisplay.innerHTML = "<h4> Oops! Try another letter. </h4>"
+        }
+      } else {
+        // All tries done
+        $messageDisplay.innerHTML = "<h4> Game Over. Enter any key to start again.</h4>";
+        gameReset();
+      }
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
+
 </html>
