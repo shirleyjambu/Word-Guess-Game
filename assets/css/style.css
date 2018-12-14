@@ -1,0 +1,65 @@
+.center-screen {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  min-width: 50%;
+}
+
+.my-flex-container {
+  align-self: center;
+  border: 5px solid #5c5346;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+.my-flex-item {
+  background-color:#e0dfd5; 
+  border-bottom: 1px dashed #5c5346;
+  height: 48px;
+}
+
+.my-flex-item-2 {
+  background-color: #e0dfd5;
+  border-bottom: 1px dotted grey;
+  height: 96px;
+}
+
+.my-header{
+  color: #5c5346;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.my-label{
+  color: #5c5346;
+  font-weight: 400;
+}
+
+.my-value{
+  color: #5c5346;
+  font-weight: 600;
+}
+
+.my-message{
+  color:darkgreen;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.my-success{
+  color: green;
+}
+
+.my-failure{
+  color:red;
+}
+
+.my-info{
+  color:darkturquoise;
+}
+.my-warning{
+  color:darkorange;
+}

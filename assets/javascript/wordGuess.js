@@ -11,12 +11,12 @@ var winCounter = 0;
 var lossCounter = 0;
 
 // User messages
-var msgWin="<i class='fas fa-award'></i> You Won ! Guess another word.";
-var msgGameOver="Game Over. Start again.";
-var msgEnterValidKey="Please enter a valid alphabet.";
-var msgWrongLetter="Oops ! Try another letter.";
-var msgRightLetter="Cool. Keep trying.";
-var msgAlreadyExisting="You already guessed it. Try another letter.";
+var msgWin = "<i class='fas fa-award'></i> You Won ! Guess another word.";
+var msgGameOver = "Game Over. Start again.";
+var msgEnterValidKey = "Please enter a valid alphabet.";
+var msgWrongLetter = "Oops ! Try another letter.";
+var msgRightLetter = "Cool. Keep trying.";
+var msgAlreadyExisting = "You already guessed it. Try another letter.";
 
 // document elements
 var $guessWordDisplay = document.getElementById("guessWordDisplay");
@@ -80,6 +80,37 @@ function gameReset() {
   $lettersDisplay.textContent = "";
 }
 
+function setUserMsg(code) {
+  console.log("code : " + code);
+  switch (code) {
+    case ("W"):
+      $messageDisplay.innerHTML = msgWin;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-success";
+      winCounter++;
+      $winDisplay.textContent = winCounter;
+      break;
+    case ("L"):
+      $messageDisplay.innerHTML = msgGameOver;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-failure";
+      lossCounter++;
+      $lossDisplay.textContent = lossCounter;
+      break;
+    case ("RL"):
+      $messageDisplay.innerHTML = msgRightLetter;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-info";
+      break;
+    case ("WL"):
+      $messageDisplay.innerHTML = msgWrongLetter;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-info";
+      break;
+    case ("V"):
+      $messageDisplay.innerHTML = msgEnterValidKey;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-warning";
+      break;
+  }
+}
+
+
 // End of Function Block
 
 // Call the function to set the game    
@@ -105,31 +136,26 @@ document.onkeyup = function (event) {
         $triesDisplay.textContent = triesCount;
 
         if (triesCount == 0) {
-          $messageDisplay.innerHTML = msgGameOver;
-          lossCounter++;
-          $lossDisplay.textContent = lossCounter;
+          setUserMsg("L");
           gameReset();
         } else {
           $lettersDisplay.textContent = allGuesses + " " + keyEntered;
           if (chosenWord.indexOf(keyEntered) >= 0) {
-
             $guessWordDisplay.innerHTML = setSelectedLetters(keyEntered);
             if (isWordFound) {
-              $messageDisplay.innerHTML = msgWin;
-              winCounter++;
-              $winDisplay.textContent = winCounter;
+              setUserMsg("W");
               gameReset();
             } else {
-              $messageDisplay.innerHTML = msgRightLetter;
+              setUserMsg("RL");
             }
           } else {
-            $messageDisplay.innerHTML = msgWrongLetter;
+            setUserMsg("WL");
           }
         }
       }
     }
   } else {
-    $messageDisplay.innerHTML = msgEnterValidKey;
+    setUserMsg("V");
   }
 
 }
