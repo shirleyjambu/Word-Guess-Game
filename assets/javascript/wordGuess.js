@@ -12,7 +12,7 @@ var lossCounter = 0;
 
 // User messages
 var msgWin = "<i class='fas fa-award'></i> You Won ! Guess another word.";
-var msgGameOver = "Game Over. Start again.";
+var msgGameOver = "Game Over. Try another word.";
 var msgEnterValidKey = "Please enter a valid alphabet.";
 var msgWrongLetter = "Oops ! Try another letter.";
 var msgRightLetter = "Cool. Keep trying.";

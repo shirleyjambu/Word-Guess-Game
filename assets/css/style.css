@@ -63,3 +63,7 @@
 .my-warning{
   color:darkorange;
 }
+
+.my-rounded{
+  border-radius:.50em!important;
+}
