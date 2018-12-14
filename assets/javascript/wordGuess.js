@@ -81,7 +81,6 @@ function gameReset() {
 }
 
 function setUserMsg(code) {
-  console.log("code : " + code);
   switch (code) {
     case ("W"):
       $messageDisplay.innerHTML = msgWin;
