@@ -27,6 +27,12 @@
   height: 96px;
 }
 
+.my-flex-item-3{
+  background-color:#e0dfd5; 
+  border-bottom: 1px dashed #5c5346;
+  height: 48px;
+}
+
 .my-header{
   color: #5c5346;
   font-size: 22px;
@@ -76,7 +82,7 @@
 /* Responsive*/
 
 @media screen and (max-width: 640px) {
-  .my-flex-item {
+  .my-flex-item-3 {
     background-color:#e0dfd5; 
     border-bottom: 1px dashed #5c5346;
     height: 96px;
