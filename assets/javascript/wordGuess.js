@@ -170,4 +170,3 @@ $startGameBtn.addEventListener("click",newGame);
 $(document).on("click",function(){
   $('#dummy').focus();
 });
-$('#dummy').focus();
