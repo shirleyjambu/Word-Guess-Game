@@ -167,6 +167,6 @@ document.onkeyup = function(event){
 $startGameBtn.addEventListener("click",newGame);
 
 //For mobile
-$(document).on("click",function(){
+/*$(document).on("click",function(){
   $('#dummy').focus();
-});
+});*/
