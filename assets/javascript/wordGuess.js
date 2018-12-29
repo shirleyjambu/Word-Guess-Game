@@ -32,7 +32,7 @@ function newGame(){
   setWordDisplay();
   $messageDisplay.innerText ="";
   $lettersDisplay.innerText="";
-  $triesDisplay.innerText="";
+  $triesDisplay.innerText=triesCount;
   //for mobile
   $('#dummy').focus();
 }
@@ -104,6 +104,7 @@ function setUserMsg(code) {
       wins++;
       $winDisplay.textContent = wins;
       isGameOn=false;
+      document.activeElement.blur(); // For mobile
       break;
     case ("L"):
       $messageDisplay.innerHTML = msgGameOver;
@@ -111,6 +112,7 @@ function setUserMsg(code) {
       losses++;
       $lossDisplay.textContent = losses;
       isGameOn=false;
+      document.activeElement.blur(); // For mobile
       break;
     case ("RL"):
       $messageDisplay.innerHTML = msgRightLetter;
