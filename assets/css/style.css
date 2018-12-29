@@ -68,11 +68,13 @@
   border-radius:.50em!important;
 }
 
-.mobileSpan{
-  display: none;
+#dummy{
+  position: absolute;
+  left: -200px;
+  top: 0px;
 }
-
 /* Responsive*/
+
 @media screen and (max-width: 640px) {
   .my-flex-item {
     background-color:#e0dfd5; 
@@ -88,7 +90,4 @@
     width: 100%;
   }
 
-  .mobileSpan{
-    display: true;
-  }
 };
