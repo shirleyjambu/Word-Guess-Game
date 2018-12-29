@@ -18,7 +18,7 @@ var $lettersDisplay = document.getElementById("lettersDisplay");
 
 // User messages
 var msgWin = "<i class='fas fa-award'></i> You Won ! Guess another word.";
-var msgGameOver = "Game Over. It was " + chosenWord +".";
+var msgGameOver = "Game Over. It was ";
 var msgEnterValidKey = "Please enter a valid alphabet.";
 var msgWrongLetter = "Oops ! Try another letter.";
 var msgRightLetter = "Cool. Keep trying.";
@@ -107,7 +107,7 @@ function setUserMsg(code) {
       document.activeElement.blur(); // For mobile
       break;
     case ("L"):
-      $messageDisplay.innerHTML = msgGameOver;
+      $messageDisplay.innerHTML = msgGameOver + chosenWord +".";
       $messageDisplay.className = "p-2 my-flex-item-2 my-message my-failure";
       losses++;
       $lossDisplay.textContent = losses;
