@@ -1,14 +1,20 @@
-// Initialise variables
-var wordList = ["pretty", "beautiful", "lovely", "foliage", "summer", "exquisite"];
+//Variables
+var keyEntered="";
 var chosenWord = "";
-var guessWord = "";
-var allGuesses = "";
+var isGameOn = false;
+var placeholder = [];
+var arrIncorrect = [];
 var triesCount = 10;
-var arrCorrect = [];
-var arrAllGuesses = [];
-var isWordFound = false;
-var winCounter = 0;
-var lossCounter = 0;
+var wins = 0;
+var losses = 0;
+
+var $messageDisplay = document.getElementById("messageDisplay");
+var $placeholderDisplay = document.getElementById("guessWordDisplay");
+var $startGameBtn = document.getElementById("startGame");
+var $triesDisplay = document.getElementById("triesDisplay");
+var $winDisplay = document.getElementById("winDisplay");
+var $lossDisplay = document.getElementById("lossDisplay");
+var $lettersDisplay = document.getElementById("lettersDisplay");
 
 // User messages
 var msgWin = "<i class='fas fa-award'></i> You Won ! Guess another word.";
@@ -17,67 +23,76 @@ var msgEnterValidKey = "Please enter a valid alphabet.";
 var msgWrongLetter = "Oops ! Try another letter.";
 var msgRightLetter = "Cool. Keep trying.";
 var msgAlreadyExisting = "You already guessed it. Try another letter.";
-
-// document elements
-var $guessWordDisplay = document.getElementById("guessWordDisplay");
-var $triesDisplay = document.getElementById("triesDisplay");
-var $lettersDisplay = document.getElementById("lettersDisplay");
-var $messageDisplay = document.getElementById("messageDisplay");
-var $winDisplay = document.getElementById("winDisplay");
-var $lossDisplay = document.getElementById("lossDisplay");
-
-
+var msgStartBtn ="Please click 'Start Game' to begin."
 
 // Functions
-function getRandomWord() {
-  chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+function newGame(){
+  isGameOn = true;
+  triesCount=10;
+  setWordDisplay();
+  $messageDisplay.innerText ="";
+  $lettersDisplay.innerText="";
+  $triesDisplay.innerText="";
+  
+}
+
+// Functions
+function setWordDisplay() {
+  placeholder = [];
+  arrIncorrect = [];
+
+  chosenWord = wordList[Math.floor(Math.random() * wordList.length)].trim();
   console.log(" chosen Word : " + chosenWord);
-  return chosenWord;
-}
 
-function setWordDisplay(len) {
-  var startWord = "";
-  for (var i = 0; i < len; i++) {
-    startWord = startWord + "_ ";
-  }
-  $guessWordDisplay.innerHTML = startWord;
-}
-
-function setSelectedLetters(letter) {
-  arrCorrect.push(letter);
-  guessWord = "";
-  // Based on word chosen, create dashes to guess the word 
   for (var i = 0; i < chosenWord.length; i++) {
-
-    if (arrCorrect.includes(chosenWord.charAt(i))) {
-      guessWord = guessWord + chosenWord.charAt(i) + " ";
-    } else {
-      guessWord = guessWord + "_ ";
+    // check if chosen word has space
+    if(chosenWord[i] === " "){
+      placeholder.push("-"); // Space does not work
+    }else{
+      placeholder.push("_");
     }
   }
-  setWordFound(guessWord);
-  return guessWord;
+  
+  $placeholderDisplay.innerHTML = placeholder.join(" ");
+  $triesDisplay.innerHTML=triesCount;
 }
 
-function setWordFound(word) {
-  if (word.indexOf("_") < 0) {
-    isWordFound = true;
-  }
-}
 
-function gameSet() {
-  gameReset();
-  $messageDisplay.textContent = "";
-}
+function checkLetter(letter){
+   // Check if letter in chosen word
+   for(var i=0;i < chosenWord.length ; i++){
+      if(chosenWord[i].toLowerCase() === letter.toLowerCase()){
+        placeholder[i] = chosenWord[i];
+        setUserMsg("RL");
+        }
+    }  
 
-function gameReset() {
-  setWordDisplay(getRandomWord().length);
-  triesCount = 10;
-  isWordFound = false;
-  arrCorrect = [];
-  arrAllGuesses = [];
-  $triesDisplay.textContent = triesCount;
-  $lettersDisplay.textContent = "";
+    // Write the word to page
+    $placeholderDisplay.innerHTML = placeholder.join(" ");
+
+    //if Letter was not in the chosen word
+    if(!arrIncorrect.includes(letter)){
+      // decrement the counter and display the value
+      triesCount--;
+      $triesDisplay.textContent = triesCount;
+
+      // Add letter to allGuesses
+      arrIncorrect.push(letter);
+      $lettersDisplay.textContent = arrIncorrect.join(", ");
+      setUserMsg("WL");
+    }else{
+      setUserMsg("E");
+    }
+
+     //Check if win
+    if(chosenWord === placeholder.join("").toLowerCase()){
+      setUserMsg("W");
+    }
+
+    // Check for loss
+   if(triesCount === 0){
+     setUserMsg("L");
+    }
 }
 
 function setUserMsg(code) {
@@ -85,14 +100,16 @@ function setUserMsg(code) {
     case ("W"):
       $messageDisplay.innerHTML = msgWin;
       $messageDisplay.className = "p-2 my-flex-item-2 my-message my-success";
-      winCounter++;
-      $winDisplay.textContent = winCounter;
+      wins++;
+      $winDisplay.textContent = wins;
+      isGameOn=false;
       break;
     case ("L"):
       $messageDisplay.innerHTML = msgGameOver;
       $messageDisplay.className = "p-2 my-flex-item-2 my-message my-failure";
-      lossCounter++;
-      $lossDisplay.textContent = lossCounter;
+      losses++;
+      $lossDisplay.textContent = losses;
+      isGameOn=false;
       break;
     case ("RL"):
       $messageDisplay.innerHTML = msgRightLetter;
@@ -106,55 +123,37 @@ function setUserMsg(code) {
       $messageDisplay.innerHTML = msgEnterValidKey;
       $messageDisplay.className = "p-2 my-flex-item-2 my-message my-warning";
       break;
+    case ("SB"):
+      $messageDisplay.innerHTML = msgStartBtn;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-warning";
+      break;
+    case ("E"):
+      $messageDisplay.innerHTML = msgAlreadyExisting;
+      $messageDisplay.className = "p-2 my-flex-item-2 my-message my-info";
+      break;  
   }
 }
 
 
-// End of Function Block
+//End of Functions
 
-// Call the function to set the game    
-gameSet();
-
-// When user types in a key
-// check if the letter exists in the word,if true set guessWord, else continue
-document.onkeyup = function (event) {
+//Event handlers
+document.onkeyup = function(event){
   keyEntered = event.key;
+
+  // Check for isGameOn mode
+  if(!isGameOn){
+    setUserMsg("SB");
+    return false;
+  } 
+
   // To check if keyEntered is only alphabets
   if (keyEntered.charCodeAt(0) >= 97 && keyEntered.charCodeAt(0) <= 122) {
-    if (triesCount >= 1 && triesCount <= 10) {
-
-      // Display the letters typed 
-      allGuesses = $lettersDisplay.textContent;
-
-      if (allGuesses.includes(keyEntered)) {
-        $messageDisplay.innerHTML = msgAlreadyExisting;
-      } else {
-        // decrement the counter and display the value
-        triesCount--;
-
-        $triesDisplay.textContent = triesCount;
-
-        if (triesCount == 0) {
-          setUserMsg("L");
-          gameReset();
-        } else {
-          $lettersDisplay.textContent = allGuesses + " " + keyEntered;
-          if (chosenWord.indexOf(keyEntered) >= 0) {
-            $guessWordDisplay.innerHTML = setSelectedLetters(keyEntered);
-            if (isWordFound) {
-              setUserMsg("W");
-              gameReset();
-            } else {
-              setUserMsg("RL");
-            }
-          } else {
-            setUserMsg("WL");
-          }
-        }
-      }
-    }
+    checkLetter(keyEntered);
   } else {
     setUserMsg("V");
+    return false;
   }
+};
 
-}
+$startGameBtn.addEventListener("click",newGame);

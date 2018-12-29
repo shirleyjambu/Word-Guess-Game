@@ -67,3 +67,13 @@
 .my-rounded{
   border-radius:.50em!important;
 }
+
+/* Responsive*/
+@media screen and (max-width: 640px) {
+  .my-flex-item {
+    background-color:#e0dfd5; 
+    border-bottom: 1px dashed #5c5346;
+    height: 96px;
+  }
+ 
+};
