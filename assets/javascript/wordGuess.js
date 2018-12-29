@@ -141,6 +141,11 @@ function setUserMsg(code) {
 document.onkeyup = function(event){
   keyEntered = event.key;
 
+  //handle eventcode
+  if(event.keyCode==229){
+    event.keyCode=$('#dummy').val().slice(('#dummy').val().length-1,('#dummy').val().length).toUpperCase().charCodeAt(0);}
+  
+  
   // Check for isGameOn mode
   if(!isGameOn){
     setUserMsg("SB");
