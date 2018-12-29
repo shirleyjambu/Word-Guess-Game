@@ -68,6 +68,10 @@
   border-radius:.50em!important;
 }
 
+.mobileSpan{
+  display: none;
+}
+
 /* Responsive*/
 @media screen and (max-width: 640px) {
   .my-flex-item {
@@ -76,4 +80,15 @@
     height: 96px;
   }
  
+  .center-screen{
+    min-width: 100%;  
+  }
+
+  .my-flex-container {
+    width: 100%;
+  }
+
+  .mobileSpan{
+    display: true;
+  }
 };

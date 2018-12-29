@@ -20,7 +20,7 @@
         Guess the word <i class="fas fa-question-circle"></i>
       </div>
       <!-- Word Display -->
-      <div class="p-2 my-flex-item my-value" id="guessWordDisplay" contenteditable="true"></div>
+      <div class="p-2 my-flex-item my-value" id="guessWordDisplay"></div>
       <!-- Attempts Left -->
       <div class="p-2 my-flex-item">
         <span class="my-label">Attempts Left : </span>
@@ -31,7 +31,7 @@
         <span class="my-label">Letters Guessed : </span>
         <span class="my-value" id="lettersDisplay"></span>
       </div>
-      <!-- Wins -->
+      <!-- Wins/ Losses -->
       <div class="p-2 my-flex-item">
         <span class="my-label">Wins : </span>
         <span class="my-value" id="winDisplay">0</span>
@@ -39,9 +39,10 @@
         <span class="my-label">&nbsp;,&nbsp;Losses : </span>
         <span class="my-value" id="lossDisplay">0</span>
       </div>
-      <!-- Losses -->
+      <!-- Start Button -->
       <div class="p-2 my-flex-item">
           <button class="btn btn-secondary" value="Start Game" id="startGame">Start Game</button>
+          <span id="mobileEntry" class="mobileSpan" contenteditable="true">Click here</span>
       </div>
       <!-- Message Display-->
       <div class="p-2 my-flex-item-2 my-message" id="messageDisplay"></div>
