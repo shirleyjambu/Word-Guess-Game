@@ -33,7 +33,8 @@ function newGame(){
   $messageDisplay.innerText ="";
   $lettersDisplay.innerText="";
   $triesDisplay.innerText="";
-  
+  //for mobile
+  $('#dummy').focus();
 }
 
 // Functions
